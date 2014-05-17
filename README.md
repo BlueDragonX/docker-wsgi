@@ -29,6 +29,11 @@ And to run your own app you might:
 
     docker run -P -v /path/to/my/app:/app bluedragonx/wsgi
 
+By default Nginx starts with 2 workers and so does uWSGI. You can change that
+with environment variables as well:
+
+    docker run -P -e NGINX_WORKERS=4 -e UWSGI_WORKERS=16 bluedragonx/wsgi
+
 Inheriting
 ----------
 The image supports backing in the app by an inheriting container. This is as
