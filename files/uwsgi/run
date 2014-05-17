@@ -7,4 +7,4 @@ elif [[ -r /app/uwsgi.yml && -z $DISABLE_APP_CONFIG ]]; then
 	UWSGI_OPTS="$UWSGI_OPTS --yaml=/app/uwsgi.yml"
 fi
 
-exec /usr/local/bin/uwsgi --uid=app --gid=app --master --log-syslog --socket=/var/run/uwsgi/uwsgi.sock --chmod-socket=600 $UWSGI_OPTS
+exec /usr/local/bin/uwsgi --uid=app --gid=app --master --log-syslog --die-on-term --socket=/var/run/uwsgi/uwsgi.sock --chmod-socket=600 $UWSGI_OPTS
