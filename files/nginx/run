@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+[[ -e /var/run/uwsgi/uwsgi.sock ]] || exit 1
+
+NGINX_GLOBALS="user app app; pid /var/run/nginx/nginx.pid; daemon off; worker_processes ${NGINX_WORKERS:-2};"
+
+if [[ -n $DISABLE_APP_CONFIG ]]; then
+	sed -i -re 's|#*(include /app/nginx\*\.conf;)|#\1|g' /etc/nginx/nginx.conf
+else
+	sed -i -re 's|#*(include /app/nginx\*\.conf;)|\1|g' /etc/nginx/nginx.conf
+fi
+
+exec /usr/sbin/nginx -g "$NGINX_GLOBALS" $NGINX_OPTS

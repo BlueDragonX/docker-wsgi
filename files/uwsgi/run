@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+UWSGI_OPTS="$UWSGI_OPTS --workers=${UWSGI_WORKERS:-2}"
+if [[ -r /etc/uwsgi/uwsgi.yml ]]; then
+	UWSGI_OPTS="$UWSGI_OPTS --yaml=/etc/uwsgi/uwsgi.yml"
+elif [[ -r /app/uwsgi.yml && -z $DISABLE_APP_CONFIG ]]; then
+	UWSGI_OPTS="$UWSGI_OPTS --yaml=/app/uwsgi.yml"
+fi
+
+exec /usr/local/bin/uwsgi --uid=app --gid=app --master --log-syslog --socket=/var/run/uwsgi/uwsgi.sock --chmod-socket=600 $UWSGI_OPTS
