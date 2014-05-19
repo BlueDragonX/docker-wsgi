@@ -9,8 +9,8 @@ ENTRYPOINT ["/sbin/my_init"]
 RUN echo 'deb http://ppa.launchpad.net/nginx/stable/ubuntu precise main' > /etc/apt/sources.list.d/nginx.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C300EE8C && \
     apt-get update -qy && \
-    apt-get install -y build-essential nginx python-dev python-pip && \
-    pip install uwsgi && \
+    apt-get install -y build-essential python-dev python-pip nginx=1.6.0-1+precise0 && \
+    pip install uwsgi==2.0.4 && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # create directories and special files
