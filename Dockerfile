@@ -1,4 +1,4 @@
-FROM bluedragonx/baseimage:latest
+FROM bluedragonx/baseimage:0.1
 MAINTAINER Ryan Bourgeois <bluedragonx@gmail.com>
 
 # set up the container environment
