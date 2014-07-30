@@ -6,17 +6,15 @@ EXPOSE 80 443
 ENTRYPOINT ["/sbin/my_init"]
 
 # install packages
-RUN echo 'deb http://ppa.launchpad.net/nginx/stable/ubuntu precise main' > /etc/apt/sources.list.d/nginx.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C300EE8C && \
-    apt-get update -qy && \
-    apt-get install -y build-essential python-dev python-pip nginx=1.6.0-1+precise0 && \
-    pip install uwsgi==2.0.4 && \
+RUN apt-get update -qy && \
+    apt-get install -y build-essential python-dev python-pip nginx-full && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN pip install uwsgi==2.0.6
 
 # create directories and special files
-RUN mkdir -p /var/cache/nginx /var/lib/nginx /var/run/nginx /etc/uwsgi /etc/service/uwsgi /var/run/uwsgi && \
-    mkfifo -m 0600 /var/lib/nginx/access /var/lib/nginx/errors && \
-    chown app:app /var/lib/nginx/access /var/lib/nginx/errors /var/run/uwsgi
+RUN mkdir -p /var/cache/nginx /var/lib/nginx /var/run/nginx /etc/uwsgi /etc/service/uwsgi /var/run/uwsgi
+RUN mkfifo -m 0600 /var/lib/nginx/access /var/lib/nginx/errors
+RUN chown app:app /var/lib/nginx/access /var/lib/nginx/errors /var/run/uwsgi
 
 # add nginx configuration
 ADD files/nginx/run /etc/service/nginx/run
